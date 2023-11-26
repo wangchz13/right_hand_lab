@@ -39,8 +39,10 @@ test_loader = DataLoader(test_data, batch_size=batch_size, shuffle=False)
 class MyModel(nn.Module):
     def __init__(self,num_classes):
         super(MyModel, self).__init__()
-        self.rnn = nn.LSTM(input_size=48, hidden_size=128, batch_first=True)
-        self.fc = nn.Linear(128, num_classes)  # num_classes为用户标签的类别数
+        self.rnn = nn.LSTM(input_size=48, hidden_size=256, batch_first=True, bidirectional=True)
+        self.fc = nn.Linear(512, num_classes)  # num_classes为用户标签的类别数
+        # self.rnn = nn.LSTM(input_size=48, hidden_size=128, batch_first=True, bidirectional=False)
+        # self.fc = nn.Linear(128, num_classes)  # num_classes为用户标签的类别数
         self.activ = nn.GELU()
     def forward(self, x):
         out, _ = self.rnn(x)
